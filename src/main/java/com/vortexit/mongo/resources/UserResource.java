@@ -1,8 +1,7 @@
 package com.vortexit.mongo.resources;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vortexit.mongo.domain.User;
+import com.vortexit.mongo.dto.UserDTO;
 import com.vortexit.mongo.services.UserService;
 
 @RestController
@@ -42,10 +42,22 @@ public class UserResource {
 		return ResponseEntity.ok().body(list);
 	}
 */
-// Implementar acesso ao MongodB	
+// Implementar acesso ao MongodB
+/*
 	@GetMapping
 	public ResponseEntity<List<User>> findAll(){
 		List<User> list = service.findAll();
 		return ResponseEntity.ok().body(list);	
 	}
+*/
+	
+// Implementar acesso ao MongodB usando o DTO
+
+		@GetMapping
+		public ResponseEntity<List<UserDTO>> findAll(){
+			List<User> list = service.findAll();
+			List<UserDTO> ListDto = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
+			return ResponseEntity.ok().body(ListDto);
+
+		}
 }
